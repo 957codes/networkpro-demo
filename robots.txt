@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://957codes.github.io/networkpro-demo/sitemap.xml
