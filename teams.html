@@ -177,12 +177,68 @@
   </div>
 </section>
 
-<section class="final-cta">
-  <h2>Ready to Network Smarter?</h2>
-  <p>Start your free team trial today. No credit card required. See why top sales teams trust Network Pro to manage their professional relationships.</p>
-  <a href="mailto:hello@networkpro.app?subject=Team%20Trial%20Request&body=Hi%2C%20I%27d%20like%20to%20start%20a%20team%20trial%20of%20Network%20Pro.%0A%0ATeam%20size%3A%20%0ACompany%3A%20%0AUse%20case%3A%20" class="cta-btn">Start Your Team Trial</a>
-  <br><br>
-  <a href="./index.html?demo=true" style="color: #4A90D9;">or try the interactive demo first →</a>
+<section class="final-cta" id="trial">
+  <h2>Start Your Free Team Trial</h2>
+  <p>No credit card required. Get your team set up in 2 minutes.</p>
+  <form id="trial-form" style="max-width: 480px; margin: 0 auto; text-align: left;">
+    <div style="margin-bottom: 16px;">
+      <label style="display:block; font-weight:600; margin-bottom:4px;">Your Name</label>
+      <input type="text" name="name" required style="width:100%; padding:12px; border:1px solid #ddd; border-radius:8px; font-size:1rem;" />
+    </div>
+    <div style="margin-bottom: 16px;">
+      <label style="display:block; font-weight:600; margin-bottom:4px;">Work Email</label>
+      <input type="email" name="email" required style="width:100%; padding:12px; border:1px solid #ddd; border-radius:8px; font-size:1rem;" />
+    </div>
+    <div style="margin-bottom: 16px;">
+      <label style="display:block; font-weight:600; margin-bottom:4px;">Company</label>
+      <input type="text" name="company" required style="width:100%; padding:12px; border:1px solid #ddd; border-radius:8px; font-size:1rem;" />
+    </div>
+    <div style="margin-bottom: 16px;">
+      <label style="display:block; font-weight:600; margin-bottom:4px;">Team Size</label>
+      <select name="team_size" required style="width:100%; padding:12px; border:1px solid #ddd; border-radius:8px; font-size:1rem; background:white;">
+        <option value="">Select...</option>
+        <option value="2-5">2-5 people</option>
+        <option value="6-10">6-10 people</option>
+        <option value="11-25">11-25 people</option>
+        <option value="26-50">26-50 people</option>
+        <option value="50+">50+ people</option>
+      </select>
+    </div>
+    <button type="submit" class="cta-btn" style="background:#4A90D9; color:white; width:100%; border:none; cursor:pointer; font-size:1.1rem;">Start Free Trial</button>
+  </form>
+  <div id="form-success" style="display:none; padding:32px; text-align:center;">
+    <h3 style="color:#4A90D9; margin-bottom:8px;">You're in!</h3>
+    <p>We'll reach out within 24 hours to set up your team.</p>
+    <a href="./index.html?demo=true" class="cta-btn" style="background:#4A90D9; color:white; margin-top:16px;">Try the Demo While You Wait</a>
+  </div>
+  <script>
+    document.getElementById('trial-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      var form = e.target;
+      var data = new FormData(form);
+      // Store lead in localStorage as backup
+      var leads = JSON.parse(localStorage.getItem('networkpro_leads') || '[]');
+      leads.push({
+        name: data.get('name'),
+        email: data.get('email'),
+        company: data.get('company'),
+        team_size: data.get('team_size'),
+        timestamp: new Date().toISOString()
+      });
+      localStorage.setItem('networkpro_leads', JSON.stringify(leads));
+      // Show success
+      form.style.display = 'none';
+      document.getElementById('form-success').style.display = 'block';
+      // Also open mailto as fallback notification
+      var subject = encodeURIComponent('New Team Trial Request: ' + data.get('company'));
+      var body = encodeURIComponent('Name: ' + data.get('name') + '\nEmail: ' + data.get('email') + '\nCompany: ' + data.get('company') + '\nTeam Size: ' + data.get('team_size'));
+      var mailtoLink = document.createElement('a');
+      mailtoLink.href = 'mailto:hello@networkpro.app?subject=' + subject + '&body=' + body;
+      mailtoLink.click();
+    });
+  </script>
+  <br>
+  <a href="./index.html?demo=true" style="color: #4A90D9;">or try the interactive demo first</a>
 </section>
 
 <footer>
